@@ -11,6 +11,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CartProvider } from "../lib/cart";
+import { CartDrawer } from "../components/CartDrawer";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
+import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
+import { BackToTop } from "../components/BackToTop";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +83,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Essence Place Hotel & Lounge — Luxury Rooms, Lounge & Bar" },
+      { name: "description", content: "Book luxury rooms and order premium drinks at Essence Place Hotel & Lounge. Simple WhatsApp checkout — no account required." },
+      { name: "author", content: "Essence Place" },
+      { name: "theme-color", content: "#111111" },
+      { property: "og:title", content: "Essence Place Hotel & Lounge" },
+      { property: "og:description", content: "Luxury, comfort, relaxation, and exceptional hospitality. Book rooms & order drinks via WhatsApp." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Essence Place Hotel & Lounge" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Essence Place Hotel & Lounge" },
+      { name: "twitter:description", content: "Book rooms & order drinks via WhatsApp — no account required." },
     ],
     links: [
       {
@@ -92,6 +101,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -119,8 +131,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <CartProvider>
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+        <CartDrawer />
+        <FloatingWhatsApp />
+        <BackToTop />
+      </CartProvider>
     </QueryClientProvider>
   );
 }
